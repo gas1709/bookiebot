@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var watch = require('gulp-watch');
-var jasmine = require('gulp-jasmine');
+var run = require('gulp-run');
 
 gulp.task('default', function () {
 	gulp.watch([
@@ -11,6 +11,7 @@ gulp.task('default', function () {
 });
 
 gulp.task('tests', function () {
-	return gulp.src('spec/*.js')
-		.pipe(jasmine());
+	run('jasmine').exec(function (error) {
+		console.log("Your tests failed");
+	});
 });
