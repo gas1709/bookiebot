@@ -1,0 +1,22 @@
+{
+  "name": "BookieBot",
+  "version": "0.0.1",
+  "description": "Dis is ur bookie m8",
+  "main": "app.js",
+  "dependencies": {
+    "mongoose": "~4.0.8",
+    "telegram-bot-api": "~0.3.0",
+    "nconf": "~0.7.1",
+    "log4js": "~0.6.26"
+  },
+  "devDependencies": {
+    "gulp": "~3.9.0",
+    "gulp-watch": "~4.3.3",
+    "gulp-jasmine": "~2.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lars Hisken",
+  "license": "The MIT License (MIT)"
+}

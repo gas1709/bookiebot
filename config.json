@@ -1,0 +1,8 @@
+{
+	"logs": {
+		"appenders": [
+			{ "type": "console" },
+			{ "type": "file", "filename": "logs/default.log" }
+		]
+	}
+}
