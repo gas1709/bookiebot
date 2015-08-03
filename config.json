@@ -1,4 +1,8 @@
 {
+	"mongodb": {
+		"uri": "mongodb://localhost/BookieBot",
+		"options": {}
+	},
 	"logs": {
 		"appenders": [
 			{ "type": "console" },

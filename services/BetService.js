@@ -1,10 +1,10 @@
 var Q = require('q');
 
-var BettingService = function (betRepository) {
+var BetService = function (betRepository) {
 	this.betRepository = betRepository;
 };
 
-BettingService.prototype.placeBet = function (wager) {
+BetService.prototype.placeBet = function (wager) {
 	var deferred = Q.defer();
 	var betRepository = this.betRepository;
 
@@ -22,4 +22,4 @@ BettingService.prototype.placeBet = function (wager) {
 	return deferred.promise;
 };
 
-module.exports = BettingService;
+module.exports = BetService;

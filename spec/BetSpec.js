@@ -1,5 +1,5 @@
 var Q = require('q');
-var mongoose = require('mongoose');
+var db = require('../config/mongodb');
 var mockgoose = require('mockgoose');
 var Bet = require('../models/Bet');
 var BetService = require('../services/BetService');
@@ -10,12 +10,11 @@ describe("The bet service", function () {
 	var wager = "Wanneer krijgt Jack eindelijk werk?";
 	var betService = new BetService(Bet);
 
-	mongoose.connect('mongodb://localhost/tests');
-	mockgoose(mongoose);
+	mockgoose(db);
 
 	beforeEach(function (done) {
 
-		var betPromise = function (bet) {
+		var findBet = function (bet) {
 			var deferred = Q.defer();
 
 			Bet.find(bet, function (error, success) {
@@ -30,7 +29,7 @@ describe("The bet service", function () {
 
 		betService.placeBet(wager)
 			.then(function (success) {
-				return betPromise(success)
+				return findBet(success);
 			})
 			.then(function (success) {
 				_success = success;

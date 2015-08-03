@@ -4,17 +4,18 @@
   "description": "Dis is ur bookie m8",
   "main": "app.js",
   "dependencies": {
-    "telegram-bot-api": "~0.3.0",
-    "nconf": "~0.7.1",
     "log4js": "~0.6.26",
+    "mongoose": "~4.0.8",
+    "nconf": "~0.7.1",
     "q": "~1.4.1",
-    "mongoose": "~4.0.8"
+    "telegram-bot-api": "^0.3.2"
   },
   "devDependencies": {
     "gulp": "~3.9.0",
     "gulp-watch": "~4.3.3",
+    "gulp-run": "~1.6.8",
+    "gulp-nodemon": "^2.0.3",
     "mockgoose": "~2.0.3",
-    "gulp-run": "~1.6.8"
   },
   "scripts": {
     "test": "gulp tests"

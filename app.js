@@ -5,16 +5,19 @@ var logger = log4js.getLogger('default');
 
 var Telegram = require('telegram-bot-api');
 var mongoose = require('mongoose');
+var mongodb = require('./config/mongodb');
 
-console.log(process.env.TOKEN);
-
-var API = new Telegram({
+var telegramBot = new Telegram({
 	token: process.env.TOKEN,
 	updates: {
 		enabled: true
 	}
 });
 
-API.on('message', function (message) {
-	logger.info(message);
-});
+var BotService = require('./services/BotService');
+var botService = new BotService(telegramBot);
+
+var BetController = require('./controllers/BetController');
+var betController = new BetController(botService);
+
+botService.listen();
