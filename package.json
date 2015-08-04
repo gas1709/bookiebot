@@ -15,7 +15,7 @@
     "gulp-watch": "~4.3.3",
     "gulp-run": "~1.6.8",
     "gulp-nodemon": "^2.0.3",
-    "mockgoose": "~2.0.3",
+    "mockgoose": "~2.0.3"
   },
   "scripts": {
     "test": "gulp tests"
