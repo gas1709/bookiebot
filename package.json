@@ -7,15 +7,15 @@
     "log4js": "~0.6.26",
     "mongoose": "~4.0.8",
     "nconf": "~0.7.1",
-    "q": "~1.4.1",
-    "telegram-bot-api": "^0.3.2"
+    "node-telegram-bot": "^0.1.0",
+    "q": "~1.4.1"
   },
   "devDependencies": {
     "gulp": "~3.9.0",
     "gulp-watch": "~4.3.3",
     "gulp-run": "~1.6.8",
     "gulp-nodemon": "^2.0.3",
-    "mockgoose": "~2.0.3",
+    "mockgoose": "~2.0.3"
   },
   "scripts": {
     "test": "gulp tests"

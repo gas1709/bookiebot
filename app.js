@@ -3,19 +3,14 @@ log4js = require('log4js');
 log4js.configure(config.get('logs'));
 var logger = log4js.getLogger('default');
 
-var Telegram = require('telegram-bot-api');
+var Telegram = require('node-telegram-bot');
 var mongoose = require('mongoose');
 var mongodb = require('./config/mongodb');
 
-var telegramBot = new Telegram({
-	token: process.env.TOKEN,
-	updates: {
-		enabled: true
-	}
-});
+var BookieBot = new Telegram({token: process.env.TOKEN});
 
 var BotService = require('./services/BotService');
-var botService = new BotService(telegramBot);
+var botService = new BotService(BookieBot);
 
 var BetController = require('./controllers/BetController');
 var betController = new BetController(botService);
