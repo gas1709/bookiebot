@@ -7,12 +7,13 @@ var Telegram = require('node-telegram-bot');
 var mongoose = require('mongoose');
 var mongodb = require('./config/mongodb');
 
-var BookieBot = new Telegram({token: process.env.TOKEN});
-
 var BotService = require('./services/BotService');
-var botService = new BotService(BookieBot);
-
 var BetController = require('./controllers/BetController');
+var HelpController = require('./controllers/HelpController');
+
+var BookieBot = new Telegram({token: process.env.TOKEN});
+var botService = new BotService(BookieBot);
 var betController = new BetController(botService);
+var helpController = new HelpController(botService);
 
 botService.listen();

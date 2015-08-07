@@ -7,6 +7,8 @@ var BetService = require('../services/BetService');
 describe("The bet service", function () {
 
 	var _success;
+	var user_id = "123124214124";
+	var chat_id = "-123123";
 	var wager = "Wanneer krijgt Jack eindelijk werk?";
 	var betService = new BetService(Bet);
 
@@ -27,12 +29,16 @@ describe("The bet service", function () {
 			return deferred.promise;
 		};
 
-		betService.placeBet(wager)
+		betService.placeWager(user_id, chat_id, wager)
 			.then(function (success) {
 				return findBet(success);
 			})
 			.then(function (success) {
 				_success = success;
+				done();
+			})
+			.catch(function (error) {
+				console.log(error);
 				done();
 			})
 			.done();
@@ -42,6 +48,14 @@ describe("The bet service", function () {
 	it("should save the bet", function (done) {
 		expect(_success.length).not.toEqual(0);
 		expect(_success.length).toEqual(1);
+
+		expect(_success[0].belongs_to.user_id).toBeDefined();
+		expect(_success[0].belongs_to.user_id).not.toBe(null);
+		expect(_success[0].belongs_to.user_id).toEqual(user_id);
+
+		expect(_success[0].belongs_to.chat_id).toBeDefined();
+		expect(_success[0].belongs_to.chat_id).not.toBe(null);
+		expect(_success[0].belongs_to.chat_id).toEqual(chat_id);
 
 		expect(_success[0].wager).toBeDefined();
 		expect(_success[0].wager).not.toBe(null);
