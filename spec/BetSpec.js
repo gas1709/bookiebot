@@ -9,7 +9,11 @@ describe("The bet service", function () {
 	var _success;
 	var user_id = "123124214124";
 	var chat_id = "-123123";
-	var wager = "Wanneer krijgt Jack eindelijk werk?";
+	var wager = {
+		"wager": "Wanneer krijgt Jack eindelijk werk?",
+		"outcomes": "Datetime",
+		"stake": 3
+	}
 	var betService = new BetService(Bet);
 
 	mockgoose(db);
@@ -57,9 +61,17 @@ describe("The bet service", function () {
 		expect(_success[0].belongs_to.chat_id).not.toBe(null);
 		expect(_success[0].belongs_to.chat_id).toEqual(chat_id);
 
+		expect(_success[0].outcomes).toBeDefined();
+		expect(_success[0].outcomes).not.toBe(null);
+		expect(_success[0].outcomes).toEqual(wager.outcomes.toLowerCase());
+
+		expect(_success[0].stake).toBeDefined();
+		expect(_success[0].stake).not.toBe(null);
+		expect(_success[0].stake).toEqual(wager.stake);
+
 		expect(_success[0].wager).toBeDefined();
 		expect(_success[0].wager).not.toBe(null);
-		expect(_success[0].wager).toEqual(wager);
+		expect(_success[0].wager).toEqual(wager.wager);
 
 		expect(_success[0]._id).toBeDefined();
 		expect(_success[0]._id).not.toBe(null);

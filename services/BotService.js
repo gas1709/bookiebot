@@ -56,16 +56,21 @@ BotService.prototype.listen = function() {
  * @param  {Number} timeoutInMilliseconds A timeout in milliseconds
  * @return {Promise -> message}			  Returns a promise with the reply message
  */
-BotService.prototype.waitForReply = function(message_id, timeoutInMilliseconds) {
+BotService.prototype.waitForReply = function(message_id, user_id, timeoutInMilliseconds) {
 	var self = this;
 	var deferred = Q.defer();
 	var timeout = setTimeout(function () {
 		self.bookieBot.removeListener('message', callback);
-		deferred.reject();
+		deferred.reject(new Error('timeout'));
 	}, timeoutInMilliseconds);
 
 	var callback = function (message) {
-		if (message.reply_to_message && message.reply_to_message.message_id === message_id) {
+
+		if (message.reply_to_message && message.reply_to_message.message_id === message_id && message.from.id === user_id) {
+			self.bookieBot.removeListener('message', callback);
+			clearTimeout(timeout);
+			deferred.resolve(message);
+		} else if (!message.reply_to_message && message.from.id === user_id && /(boolean|number|datetime)/.test(message.text.toLowerCase())) {
 			self.bookieBot.removeListener('message', callback);
 			clearTimeout(timeout);
 			deferred.resolve(message);

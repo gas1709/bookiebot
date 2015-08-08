@@ -11,7 +11,7 @@ var BetService = function (wagerRepository) {
  * @param  {String} wager   The wager itself
  * @return {Promise -> Wager} Returns a promise with the saved wager
  */
-BetService.prototype.placeWager = function (user_id, chat_id, wager) {
+BetService.prototype.placeWager = function (user_id, chat_id, wager, outcomes, stake) {
 	var deferred = Q.defer();
 	var wagerRepository = this.wagerRepository;
 
@@ -20,7 +20,9 @@ BetService.prototype.placeWager = function (user_id, chat_id, wager) {
 			"user_id": user_id,
 			"chat_id": chat_id
 		},
-		"wager": wager
+		"outcomes": wager.outcomes,
+		"stake": wager.stake,
+		"wager": wager.wager
 	});
 
 	wager.save(function (error, success) {
@@ -33,12 +35,27 @@ BetService.prototype.placeWager = function (user_id, chat_id, wager) {
 	return deferred.promise;
 };
 
-BetService.prototype.get = function(user_id, chat_id) {
+BetService.prototype.getByChatId = function(chat_id) {
 	var deferred = Q.defer();
 	var wagerRepository = this.wagerRepository;
 
 	wagerRepository.find({
 		"belongs_to.chat_id": chat_id.toString()
+	}, function (error, success) {
+		if (error)
+			deferred.reject();
+		else
+			deferred.resolve(success);
+	});
+
+	return deferred.promise;
+};
+
+BetService.prototype.getByUserId = function(user_id) {
+	var deferred = Q.defer();
+
+	wagerRepository.find({
+		"belongs_to.user_id": chat_id.toString()
 	}, function (error, success) {
 		if (error)
 			deferred.reject();
