@@ -1,10 +1,10 @@
 var EventEmitter = require('events').EventEmitter;
 var Q = require('q');
 
-var BotService = function (bookieBot) {
-	this.bookieBot = bookieBot;
-	this.commands = [];
-	this.listener;
+var BotService = function(bookieBot) {
+    this.bookieBot = bookieBot;
+    this.commands = [];
+    this.listener;
 };
 
 BotService.prototype = new EventEmitter;
@@ -16,10 +16,10 @@ BotService.prototype = new EventEmitter;
  * @return {Callback}          Returns a callback with the message
  */
 BotService.prototype.use = function(command, callback) {
-	this.commands.push(command);
-	this.on(command, function (message) {
-		callback(message);
-	});
+    this.commands.push(command);
+    this.on(command, function(message) {
+        callback(message);
+    });
 };
 
 /**
@@ -27,26 +27,26 @@ BotService.prototype.use = function(command, callback) {
  * Emits to the command's event on success
  */
 BotService.prototype.listen = function() {
-	var self = this;
+    var self = this;
 
-	this.bookieBot.on('message', function (message) {
+    this.bookieBot.on('message', function(message) {
 
-		var originalMessage = message;
+            var originalMessage = message;
 
-		if (message.chat.title && /@BookieBot/.test(message.text)) {
-			self.commands.forEach(function (command) {
-				if (message.text && message.text.replace('@BookieBot', '').trim() === command)
-					self.emit(command, originalMessage);
-			});
-		} else {
-			self.commands.forEach(function (command) {
-				if (message.text && message.text.trim() === command)
-					self.emit(command, originalMessage);
-			});
-		}
+            if (message.chat.title && /@BookieBot/.test(message.text)) {
+                self.commands.forEach(function(command) {
+                    if (message.text && message.text.replace('@BookieBot', '').trim() === command)
+                        self.emit(command, originalMessage);
+                });
+            } else {
+                self.commands.forEach(function(command) {
+                    if (message.text && message.text.trim() === command)
+                        self.emit(command, originalMessage);
+                });
+            }
 
-	})
-	.start();
+        })
+        .start();
 };
 
 /**
@@ -57,28 +57,28 @@ BotService.prototype.listen = function() {
  * @return {Promise -> message}			  Returns a promise with the reply message
  */
 BotService.prototype.waitForReply = function(message_id, user_id, timeoutInMilliseconds) {
-	var self = this;
-	var deferred = Q.defer();
-	var timeout = setTimeout(function () {
-		self.bookieBot.removeListener('message', callback);
-		deferred.reject(new Error('timeout'));
-	}, timeoutInMilliseconds);
+    var self = this;
+    var deferred = Q.defer();
+    var timeout = setTimeout(function() {
+        self.bookieBot.removeListener('message', callback);
+        deferred.reject(new Error('timeout'));
+    }, timeoutInMilliseconds);
 
-	var callback = function (message) {
+    var callback = function(message) {
 
-		if (message.reply_to_message && message.reply_to_message.message_id === message_id && message.from.id === user_id) {
-			self.bookieBot.removeListener('message', callback);
-			clearTimeout(timeout);
-			deferred.resolve(message);
-		} else if (!message.reply_to_message && message.from.id === user_id && /(boolean|number|datetime)/.test(message.text.toLowerCase())) {
-			self.bookieBot.removeListener('message', callback);
-			clearTimeout(timeout);
-			deferred.resolve(message);
-		}
-	}
-	this.bookieBot.on('message', callback);
+        if (message.reply_to_message && message.reply_to_message.message_id === message_id && message.from.id === user_id) {
+            self.bookieBot.removeListener('message', callback);
+            clearTimeout(timeout);
+            deferred.resolve(message);
+        } else if (!message.reply_to_message && message.from.id === user_id && /(boolean|number|datetime)/.test(message.text.toLowerCase())) {
+            self.bookieBot.removeListener('message', callback);
+            clearTimeout(timeout);
+            deferred.resolve(message);
+        }
+    }
+    this.bookieBot.on('message', callback);
 
-	return deferred.promise;
+    return deferred.promise;
 };
 
 module.exports = BotService;

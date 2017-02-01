@@ -2,7 +2,7 @@ var HelpController = function (botService) {
 	var self = this;
 	this.botService = botService;
 
-	var help = "Hello there! I am @BookieBot, I can help you and your friends manage wagers, bets and rewards!\n\nYou can control me by sending these commands:\n\n/help - Not sure what to do?\n/new_wager - Create a new wager\n/wager - List current wagers";
+	var help = "Hello there! I am @BookieBot, I can help you and your friends manage wagers, bets and rewards!\n\nYou can control me by sending these commands:\n\n/help - Not sure what to do?\n/new_wager - Create a new wager\n/wagers - List current wagers";
 
 	this.botService.use('/help', function (from) {
 		self.botService.bookieBot.sendMessage({
